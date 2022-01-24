@@ -19,40 +19,44 @@ async function poll(func) {
  * Send a POST request to an endpoint of the server
  * @param {string} endpoint Endpoint, ie /inc_count
  * @param {object} params Parameters to post as an obj, ie { key: value }
- * @param {Function} cb Callback of the XMLHttpRequest, passing in is 200 status
+ * @param {Function} cb Callback of the XMLHttpRequest, passing in status, response
  */
 function postEndpoint(endpoint, params, cb) {
     const req = new XMLHttpRequest();
     const urlParams = (new URLSearchParams(params)).toString(); // `userid=duotoken`;
 
+    console.log(endpoint, urlParams)
+
     req.open('POST', settings.SERVER_URL + endpoint, true);
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     req.send(urlParams);
-    req.onreadystatechange = () => cb(this.readyState === XMLHttpRequest.DONE && this.status === 200);
+    req.onreadystatechange = () => cb(req.readyState === XMLHttpRequest.DONE && req.status === 200, req.response);
 }
 
-
+let settings = {};
 (async () => {
-    const settings = (await chrome.storage.sync.get(['settings'])).settings;
-    const defaultObj = { userid: settings.USER_ID, userkey: settings.USER_KEY };
+    settings = (await chrome.storage.sync.get(['settings'])).settings;
+    let defaultObj = { userid: settings.USER_ID };
+    if (settings.USER_KEY)
+        defaultObj.userkey = settings.USER_KEY;
 
-    if (!settings.enabled)
+    if (!settings.ENABLED)
         return;
-
-    // 0. Begin request for OTP
-    let OTP = null;
-    postEndpoint('/get_otp', defaultObj, ok => {
-        if (ok) {
-            let data = JSON.parse(this.response);
-            if (!data.error) OTP = data.otp;
-        }
-    });
 
     // 1. Get "password" btn
     let password_btn = await poll(() => {
         let buttons = [...document.getElementsByTagName('button')]
             .filter(x => x.innerText.includes('Enter a Passcode'));
         return buttons[0];
+    });
+
+    // 1.5. Begin request for OTP
+    let OTP = null;
+    postEndpoint('/get_otp', defaultObj, (ok, response) => {
+        if (ok) {
+            let data = JSON.parse(response);
+            if (!data.error) OTP = data.otp;
+        }
     });
 
     // 2. Click the password button
@@ -84,9 +88,9 @@ function postEndpoint(endpoint, params, cb) {
     login_btn.click();
 
     // 6. Increment count
-    postEndpoint('/inc_count', defaultObj, ok => {
+    postEndpoint('/inc_count', defaultObj, (ok, response) => {
         if (ok) {
-            let data = JSON.parse(this.response);
+            let data = JSON.parse(response);
             if (data.error)
                 alert(data.error);
         }

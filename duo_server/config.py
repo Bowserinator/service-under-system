@@ -34,7 +34,7 @@ API_RATE_LIMIT = "1 per second"
 # ----------------
 
 # Run Flask with debug logging?
-FLASK_DEBUG = False
+FLASK_DEBUG = True
 
 LOG_LEVEL = ""
 
