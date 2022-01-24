@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/options.css">
+    </head>
+    <body>
+        <div class="wrapper">
+            <h1>Duo Auto-Login Options</h1>
+
+            <ul style="padding-left: 16px">
+                <li>Do not use OTP login with the device registered to the extension directly! (Or the 
+                    extension will desync)
+                </li>
+                <li>Non-localhost servers should use a user key for encryption</li>
+            </ul>
+            <br>
+
+            <label for="server_url">Server URL</label><br>
+            <input type="text" id="server_url" placeholder="http://localhost:9123" />
+            <br>
+
+            <label for="userid">User ID</label><br>
+            <input type="text" id="userid" placeholder="your_username" />
+            <br>
+
+            <label for="userkey">User Key</label><br>
+            <textarea id="userkey"></textarea><br>
+
+            <button id="save_btn">Save Settings</button>
+        </div>
+
+        <div class="popup" id="popup">Saved Settings!</div>
+    </body>
+    <script src="options.js"></script>
+</html>

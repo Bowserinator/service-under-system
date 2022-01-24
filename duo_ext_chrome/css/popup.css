@@ -1,0 +1,17 @@
+body {
+    padding: 0;
+    height: 140px;
+    width: 200px;
+    font-size: 12pt;
+}
+
+#on_btn {
+    width: 100%;
+    height: 70px;
+    margin: 0;
+}
+
+a {
+    display: block;
+    margin-top: 10px;
+}

@@ -1,0 +1,41 @@
+{
+    "name": "Duo auto-login",
+    "description": "Chrome extension to auto-input Duo OTPs",
+    "version": "1.0",
+    "manifest_version": 3,
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.duosecurity.com/frame/prompt?sid=*",
+                "https://cas.auth.rpi.edu/cas/login?*",
+                "https://cas-sis.auth.rpi.edu/cas/login?*"
+            ],
+            "css": [
+                "css/inject.css"
+            ],
+            "js": [
+                "content-script.js"
+            ],
+            "all_frames": true
+        }
+    ],
+    "permissions": [
+        "storage"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "/images/get_started16.png",
+            "32": "/images/get_started32.png",
+            "48": "/images/get_started48.png",
+            "128": "/images/get_started128.png"
+        }
+    },
+    "icons": {
+        "16": "/images/get_started16.png",
+        "32": "/images/get_started32.png",
+        "48": "/images/get_started48.png",
+        "128": "/images/get_started128.png"
+    },
+    "options_page": "options.html"
+}
