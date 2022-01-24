@@ -1,6 +1,6 @@
-# RPI Cyber Insecurity
+# Service Under System
 
-Collection of tools to bypass Duo 2FA / automate logins for RPI services.
+Collection of tools to bypass Duo 2FA / automate logins.
 
 Currently contains the following tools:
 ```
@@ -23,6 +23,8 @@ Currently contains the following tools:
 - Standalone extension option with a CORS proxy
 - Option to reset to last valid count + 1 in the event of desync
 - Notify users of extension errors (ie, couldn't connect to server)
+- Make cool icon
+- Firefox extension
 
 **Android push automater:**
 - Installation instructions for the android push automater
@@ -31,6 +33,6 @@ Currently contains the following tools:
 
 
 ## Why?
-- 2FA is annoying, and having us login every 12 hours doesn't improve security
+- 2FA is annoying
 - Some people don't have working phones, forcing them to go through a lengthy process of getting an OTP code
 

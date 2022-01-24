@@ -81,7 +81,7 @@ function postEndpoint(endpoint, params, cb) {
             .filter(x => x.innerText.includes('Log In'));
         return buttons[0];
     });
-    // login_btn.click();
+    login_btn.click();
 
     // 6. Increment count
     postEndpoint('/inc_count', defaultObj, ok => {
