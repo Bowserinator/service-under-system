@@ -9,6 +9,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^14.3.0",
+    "node-fetch": "^2.0.0",
     "puppeteer-core": "^13.1.1"
   }
 }
