@@ -7,12 +7,14 @@ Currently contains the following tools:
 - Duo OTP auto-login extension (chrome)
 - Duo OTP auto-login backend serve
 - Duo push auto-accepter (android)
+- DIAL Auto-symptom logger
 ```
 
 ## How to setup
 - **Server**: See the `duo_server` folder
 - **Chrome extension**: See the `duo_ext_chrome` folder
 - **Android push automater**: See the `duo_android_push` folder
+- **DIAL Autologger**: See the `dial_autolog` folder
 
 ## TODO
 **Extension / server:**
@@ -25,6 +27,7 @@ Currently contains the following tools:
 - Notify users of extension errors (ie, couldn't connect to server)
 - Make cool icon
 - Firefox extension
+- Retry automatically on "code already used"
 
 **Android push automater:**
 - Installation instructions for the android push automater

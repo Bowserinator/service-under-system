@@ -3,7 +3,7 @@
 import argparse
 import traceback
 import sys
-import duo
+from src import duo
 
 parser = argparse.ArgumentParser(description="Activate a user's Duo auth account")
 parser.add_argument("url", type=str, help="Your Duo activation url. See the README for instructions")

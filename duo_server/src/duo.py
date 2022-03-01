@@ -5,7 +5,10 @@ import requests
 import base64
 import json
 
-USER_DATA_DIR = "accounts/"
+try:
+    from src import duo_io
+except ImportError:
+    import duo_io
 
 
 def register(qr_url: str, user_id: str) -> str:
@@ -54,12 +57,9 @@ def register(qr_url: str, user_id: str) -> str:
     customer_name = response["response"]["customer_name"]
     reactivation_token = response["response"]["reactivation_token"]
 
-    f = open(f"{USER_DATA_DIR}{user_id}/secret.hotp", "w")
-    f.write(secret + "\n")        # HOTP secret
-    f.write("0" + "\n")           # Activation key count
-    f.write(customer_name + "\n") # Customer name (your service provider)
-    f.write(reactivation_token)   # Reactivation token
-    f.close()
+    duo_io.write_htop(
+        f"{duo_io.USER_DATA_DIR}{user_id}/secret.hotp",
+        secret, 0, customer_name, reactivation_token)
 
     return secret
 
@@ -73,14 +73,7 @@ def update_count(user_id: str, count: int):
     """
     if count < 0:
         raise ValueError("Count must be greater than or equal to 0")
-
-    f = open(f"{USER_DATA_DIR}{user_id}/secret.hotp", "r+")
-    _ = f.readline()[0:-1]
-    offset = f.tell()
-
-    f.seek(offset)
-    f.write(str(count))
-    f.close()
+    duo_io.update_htop_count(f"{duo_io.USER_DATA_DIR}{user_id}/secret.hotp", count)
 
 
 def generate_code(user_id: str):
@@ -92,10 +85,7 @@ def generate_code(user_id: str):
     :throws IOError: Invalid secret file
     """
 
-    f = open(f"{USER_DATA_DIR}{user_id}/secret.hotp", "r+")
-    secret = f.readline()[0:-1]
-    count = int(f.readline())
-
+    secret, count, _, _ = duo_io.read_htop(f"{duo_io.USER_DATA_DIR}{user_id}/secret.hotp")
     hotp = pyotp.HOTP(secret)
     return hotp.at(count), count
 
@@ -109,14 +99,6 @@ def increment_count(user_id: str):
     :throws IOError: Invalid secret file
     """
 
-    f = open(f"{USER_DATA_DIR}{user_id}/secret.hotp", "r+")
-    lines = f.readlines()
-
-    count = int(lines[1])
-    lines[1] = str(count + 1) + "\n"
-
-    f.seek(0)
-    f.write("".join(lines))
-    f.close()
-
+    secret, count, _, _ = duo_io.read_htop(f"{duo_io.USER_DATA_DIR}{user_id}/secret.hotp")
+    duo_io.update_htop_count(f"{duo_io.USER_DATA_DIR}{user_id}/secret.hotp", count + 1)
     return count + 1
