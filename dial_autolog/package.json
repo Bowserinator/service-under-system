@@ -1,0 +1,16 @@
+{
+  "name": "dial_autolog",
+  "version": "1.0.0",
+  "description": "Automatic symptom logging in DIAL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^14.3.0",
+    "node-fetch": "^2.0.0",
+    "puppeteer-core": "^13.1.1"
+  }
+}

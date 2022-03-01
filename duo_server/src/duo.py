@@ -110,12 +110,13 @@ def increment_count(user_id: str):
     """
 
     f = open(f"{USER_DATA_DIR}{user_id}/secret.hotp", "r+")
-    _ = f.readline()
-    offset = f.tell()
-    count = int(f.readline())
+    lines = f.readlines()
 
-    f.seek(offset)
-    f.write(str(count + 1))
+    count = int(lines[1])
+    lines[1] = str(count + 1) + "\n"
+
+    f.seek(0)
+    f.write("".join(lines))
     f.close()
 
     return count + 1
