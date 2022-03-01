@@ -4,6 +4,8 @@ import pyotp
 import requests
 import base64
 import json
+import pathlib
+import os.path
 
 try:
     from src import duo_io
@@ -20,6 +22,10 @@ def register(qr_url: str, user_id: str) -> str:
     :throws KeyError: Invalid request
     :return: HOTP secret
     """
+    user_dir = f"{duo_io.USER_DATA_DIR}{user_id}"
+
+    if os.path.exists(user_dir):
+        raise ValueError(f"User id {user_id} already exists!")
 
     # Regular activation links sent in a email follow this format:
     # https://m-XXXXXXXX.duosecurity.com/android/YYYYYYYYYYYYYYYYYYYY
@@ -57,9 +63,9 @@ def register(qr_url: str, user_id: str) -> str:
     customer_name = response["response"]["customer_name"]
     reactivation_token = response["response"]["reactivation_token"]
 
-    duo_io.write_htop(
-        f"{duo_io.USER_DATA_DIR}{user_id}/secret.hotp",
-        secret, 0, customer_name, reactivation_token)
+    # Ensure dir exists
+    pathlib.Path(user_dir).mkdir(parents=True, exist_ok=True)
+    duo_io.write_htop(user_dir + "/secret.hotp", secret, 0, customer_name, reactivation_token)
 
     return secret
 
