@@ -4,7 +4,7 @@ Collection of tools to bypass Duo 2FA / automate logins.
 
 Currently contains the following tools:
 ```
-- Duo OTP auto-login extension (chrome)
+- Duo OTP auto-login extension (chrome & firefox)
 - Duo OTP auto-login backend serve
 - Duo push auto-accepter (android)
 - DIAL Auto-symptom logger
@@ -13,6 +13,7 @@ Currently contains the following tools:
 ## How to setup
 - **Server**: See the `duo_server` folder
 - **Chrome extension**: See the `duo_ext_chrome` folder
+- **Firefox extension**: See the `duo_ext_firefox` folder
 - **Android push automater**: See the `duo_android_push` folder
 - **DIAL Autologger**: See the `dial_autolog` folder
 
@@ -26,7 +27,6 @@ Currently contains the following tools:
 - Option to reset to last valid count + 1 in the event of desync
 - Notify users of extension errors (ie, couldn't connect to server)
 - Make cool icon
-- Firefox extension
 - Retry automatically on "code already used"
 
 **Android push automater:**
