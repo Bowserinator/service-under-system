@@ -24,7 +24,9 @@ async function poll(func) {
 function postEndpoint(endpoint, params, cb) {
     const req = new XMLHttpRequest();
     const urlParams = (new URLSearchParams(params)).toString(); // `userid=duotoken`;
-    
+
+    console.log(endpoint, urlParams)
+
     req.open('POST', settings.SERVER_URL + endpoint, true);
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     req.send(urlParams);
@@ -33,7 +35,7 @@ function postEndpoint(endpoint, params, cb) {
 
 let settings = {};
 (async () => {
-    settings = (await chrome.storage.sync.get(['settings'])).settings;
+    settings = (await browser.storage.sync.get(['settings'])).settings;
     let defaultObj = { userid: settings.USER_ID };
     if (settings.USER_KEY)
         defaultObj.userkey = settings.USER_KEY;
@@ -51,6 +53,7 @@ let settings = {};
     // 1.5. Begin request for OTP
     let OTP = null;
     postEndpoint('/get_otp', defaultObj, (ok, response) => {
+        console.log(ok, response)
         if (ok) {
             let data = JSON.parse(response);
             if (!data.error) OTP = data.otp;
